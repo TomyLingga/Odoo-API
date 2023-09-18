@@ -29,22 +29,21 @@ class SupplierController extends Controller
 
     public function show($id)
     {
-        $SupplierData = ResPartner::where('supplier_rank', '>', 0)
-                                ->findOrFail($id);
+        try {
+            $SupplierData = ResPartner::where('supplier_rank', '>', 0)->findOrFail($id);
 
-        if (!$SupplierData) {
             return response()->json([
-                'message' => "No Supplier Found",
+                'data' => $SupplierData,
+                'message' => 'MIS Retrieved Successfully',
+                'code' => 200,
+                'success' => true,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'MIS Not Found',
                 'success' => true,
                 'code' => 401
             ], 401);
         }
-
-        return response()->json([
-            'data' => $SupplierData,
-            'message' => 'Supplier Retrieved Successfully',
-            'code' => 200,
-            'success' => true,
-        ], 200);
     }
 }
