@@ -23,7 +23,7 @@ class SSOMiddleware
 
         try {
             $decoded = JWT::decode($jwt, new Key(env('JWT_SECRET'), 'HS256'));
-            $urlAkses = "http://36.92.181.10:4763/api/user/login";
+            $urlAkses = "http://192.168.1.10:8080/api/user/login";
 
             $getakses = Http::withHeaders([
                 'Authorization' => $authorizationHeader,
