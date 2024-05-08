@@ -29,10 +29,10 @@ Route::group(['middleware' => 'levelone.checker'], function () {
     //Currency
     Route::get('currency/index', [App\Http\Controllers\CurrencyController::class, 'index_currency']);
     Route::get('currency/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency']);
+    Route::get('currency/ex-idr', [App\Http\Controllers\CurrencyController::class, 'get_except_idr']);
     Route::get('currency_rate/index', [App\Http\Controllers\CurrencyController::class, 'index_currency_rate']);
     Route::get('currency_rate/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency_rate']);
     Route::post('currency_rate/period', [App\Http\Controllers\CurrencyController::class, 'get_date_currency']);
-    Route::get('currency_rate_2/period', [App\Http\Controllers\CurrencyController::class, 'get_res_currency']);
     //Account Move Line
     Route::post('account_move_line/index', [App\Http\Controllers\AccountMoveLineController::class, 'index_accountmove']);
     Route::get('account_move_line/get/{id}', [App\Http\Controllers\AccountMoveLineController::class, 'show']);

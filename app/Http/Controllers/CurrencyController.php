@@ -117,7 +117,7 @@ class CurrencyController extends Controller
         }
     }
 
-    public function get_res_currency(){
+    public function get_except_idr(){
 
         try {
 
