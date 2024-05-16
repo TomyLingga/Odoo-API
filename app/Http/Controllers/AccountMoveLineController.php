@@ -34,6 +34,36 @@ class AccountMoveLineController extends Controller
         ], 200);
     }
 
+    public function getByCoa(Request $request)
+    {
+        $tanggal = $request->get('tanggal');
+        $coa = $request->get('coa');
+        $date = Carbon::parse($tanggal);
+        $AccountMoveData = AccountMoveLine::whereYear('date', $date->year)
+                                        ->whereMonth('date', $date->month)
+                                        ->with('account_account')
+                                        ->whereHas('account_account', function ($query) use ($coa) {
+                                            $query->where('code', $coa);
+                                        })
+                                        ->orderBy('date')
+                                        ->get();
+
+        if ($AccountMoveData->isEmpty()) {
+            return response()->json([
+                'message' => "No Data Found",
+                'success' => false,
+                'code' => 404
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $AccountMoveData,
+            'message' => 'Data Retrieved Successfully',
+            'code' => 200,
+            'success' => true,
+        ], 200);
+    }
+
     public function show($id)
     {
         try {
