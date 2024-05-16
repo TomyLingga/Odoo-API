@@ -26,8 +26,18 @@ class AccountMoveLineController extends Controller
             ], 404);
         }
 
+        // Calculate total debit and credit
+        $totalDebit = $AccountMoveData->sum('debit');
+        $totalCredit = $AccountMoveData->sum('credit');
+
+        // Calculate the difference (debit - credit)
+        $difference = $totalDebit - $totalCredit;
+
         return response()->json([
             'data' => $AccountMoveData,
+            'total_debit' => $totalDebit,
+            'total_credit' => $totalCredit,
+            'difference' => $difference,
             'message' => 'Data Retrieved Successfully',
             'code' => 200,
             'success' => true,
