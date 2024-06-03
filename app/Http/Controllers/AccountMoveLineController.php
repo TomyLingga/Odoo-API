@@ -93,4 +93,40 @@ class AccountMoveLineController extends Controller
             ], 401);
         }
     }
+
+    public function indexPosted(Request $request)
+    {
+        $tanggal = $request->get('tanggal');
+        $date = Carbon::parse($tanggal);
+        $AccountMoveData = AccountMoveLine::whereYear('date', $date->year)
+                                            ->whereMonth('date', $date->month)
+                                            ->where('parent_state', 'posted')
+                                            ->with('account_account')
+                                            ->orderBy('date')
+                                            ->get();
+        if ($AccountMoveData->isEmpty()) {
+            return response()->json([
+                'message' => "No Data Found",
+                'success' => false,
+                'code' => 404
+            ], 404);
+        }
+
+        // Calculate total debit and credit
+        $totalDebit = $AccountMoveData->sum('debit');
+        $totalCredit = $AccountMoveData->sum('credit');
+
+        // Calculate the difference (debit - credit)
+        $difference = $totalDebit - $totalCredit;
+
+        return response()->json([
+            'data' => $AccountMoveData,
+            'total_debit' => $totalDebit,
+            'total_credit' => $totalCredit,
+            'difference' => $difference,
+            'message' => 'Data Retrieved Successfully',
+            'code' => 200,
+            'success' => true,
+        ], 200);
+    }
 }

@@ -35,6 +35,7 @@ Route::group(['middleware' => 'levelone.checker'], function () {
     Route::post('currency_rate/period', [App\Http\Controllers\CurrencyController::class, 'get_date_currency']);
     //Account Move Line
     Route::post('account_move_line/index', [App\Http\Controllers\AccountMoveLineController::class, 'index_accountmove']);
+    Route::post('account_move_line/posted', [App\Http\Controllers\AccountMoveLineController::class, 'indexPosted']);
     Route::post('account_move_line/coa', [App\Http\Controllers\AccountMoveLineController::class, 'getByCoa']);
     Route::get('account_move_line/get/{id}', [App\Http\Controllers\AccountMoveLineController::class, 'show']);
 });
