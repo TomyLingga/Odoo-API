@@ -29,6 +29,7 @@ Route::group(['middleware' => 'levelone.checker'], function () {
     //Currency
     Route::get('currency/index', [App\Http\Controllers\CurrencyController::class, 'index_currency']);
     Route::get('currency/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency']);
+    Route::get('currency/get-rate/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency_with_rate']);
     Route::get('currency/ex-idr', [App\Http\Controllers\CurrencyController::class, 'get_except_idr']);
     Route::get('currency_rate/index', [App\Http\Controllers\CurrencyController::class, 'index_currency_rate']);
     Route::get('currency_rate/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency_rate']);

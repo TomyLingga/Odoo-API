@@ -52,6 +52,26 @@ class CurrencyController extends Controller
     public function show_currency($id)
     {
         try {
+            $CurrencyData = ResCurrency::findOrFail($id);
+
+            return response()->json([
+                'data' => $CurrencyData,
+                'message' => 'Currency Retrieved Successfully',
+                'code' => 200,
+                'success' => true,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Currency Not Found',
+                'success' => true,
+                'code' => 401
+            ], 401);
+        }
+    }
+
+    public function show_currency_with_rate($id)
+    {
+        try {
             $CurrencyData = ResCurrency::with('currency_rate')->findOrFail($id);
 
             return response()->json([
