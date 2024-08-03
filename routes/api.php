@@ -26,20 +26,21 @@ Route::group(['middleware' => 'levelone.checker'], function () {
     //Supplier
     Route::get('supplier/index', [App\Http\Controllers\SupplierController::class, 'index']);
     Route::get('supplier/get/{id}', [App\Http\Controllers\SupplierController::class, 'show']);
-    //Currency
-    Route::get('currency/index', [App\Http\Controllers\CurrencyController::class, 'index_currency']);
-    Route::get('currency/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency']);
-    Route::get('currency/get-rate/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency_with_rate']);
-    Route::get('currency/ex-idr', [App\Http\Controllers\CurrencyController::class, 'get_except_idr']);
-    Route::get('currency_rate/index', [App\Http\Controllers\CurrencyController::class, 'index_currency_rate']);
-    Route::get('currency_rate/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency_rate']);
-    Route::post('currency_rate/period', [App\Http\Controllers\CurrencyController::class, 'get_date_currency']);
-    //Account Move Line
-    Route::post('account_move_line/index', [App\Http\Controllers\AccountMoveLineController::class, 'index_accountmove']);
-    Route::post('account_move_line/posted', [App\Http\Controllers\AccountMoveLineController::class, 'indexPosted']);
-    Route::post('account_move_line/coa', [App\Http\Controllers\AccountMoveLineController::class, 'getByCoa']);
-    Route::get('account_move_line/get/{id}', [App\Http\Controllers\AccountMoveLineController::class, 'show']);
 });
+
+//Currency
+Route::get('currency/index', [App\Http\Controllers\CurrencyController::class, 'index_currency']);
+Route::get('currency/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency']);
+Route::get('currency/get-rate/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency_with_rate']);
+Route::get('currency/ex-idr', [App\Http\Controllers\CurrencyController::class, 'get_except_idr']);
+Route::get('currency_rate/index', [App\Http\Controllers\CurrencyController::class, 'index_currency_rate']);
+Route::get('currency_rate/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency_rate']);
+Route::post('currency_rate/period', [App\Http\Controllers\CurrencyController::class, 'get_date_currency']);
+//Account Move Line
+Route::post('account_move_line/index', [App\Http\Controllers\AccountMoveLineController::class, 'index_accountmove']);
+Route::post('account_move_line/posted', [App\Http\Controllers\AccountMoveLineController::class, 'indexPosted']);
+Route::post('account_move_line/coa', [App\Http\Controllers\AccountMoveLineController::class, 'getByCoa']);
+Route::get('account_move_line/get/{id}', [App\Http\Controllers\AccountMoveLineController::class, 'show']);
 
     Route::fallback(function () {
     return response()->json(['code' => 404, 'message' => 'URL not Found'], 404);

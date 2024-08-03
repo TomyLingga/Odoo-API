@@ -11,7 +11,9 @@ class CurrencyController extends Controller
 {
     public function index_currency()
     {
-        $CurrencyData = ResCurrency::get();
+        $CurrencyData = ResCurrency::select('id', 'name', 'symbol', 'rounding', 'decimal_places', 'currency_unit_label', 'currency_subunit_label', 'active')
+        ->where('active', true)
+        ->get();
 
         if ($CurrencyData->isEmpty()) {
             return response()->json([
@@ -52,10 +54,19 @@ class CurrencyController extends Controller
     public function show_currency($id)
     {
         try {
-            $CurrencyData = ResCurrency::findOrFail($id);
+            $CurrencyData = ResCurrency::select('id', 'name', 'symbol', 'rounding', 'decimal_places', 'currency_unit_label', 'currency_subunit_label', 'active')
+                ->findOrFail($id);
+
+            if (!$CurrencyData->active) {
+                return response()->json([
+                    'message' => 'Currency Not Active',
+                    'success' => false,
+                    'code' => 401
+                ], 401);
+            }
 
             return response()->json([
-                'data' => $CurrencyData,
+                'data' => $CurrencyData->only(['id', 'name', 'symbol', 'rounding', 'decimal_places', 'currency_unit_label', 'currency_subunit_label']),
                 'message' => 'Currency Retrieved Successfully',
                 'code' => 200,
                 'success' => true,
@@ -63,7 +74,7 @@ class CurrencyController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Currency Not Found',
-                'success' => true,
+                'success' => false,
                 'code' => 401
             ], 401);
         }
@@ -113,10 +124,12 @@ class CurrencyController extends Controller
 
         try {
             $CurrencyData = ResCurrency::where('name', $request->get('mata_uang'))->firstOrFail();
+
             $tanggal = $request->get('tanggal');
             $date = Carbon::parse($tanggal);
 
-            $rates = ResCurrencyRate::where('currency_id', $CurrencyData->id)
+            $rates = ResCurrencyRate::select('id', 'name', 'rate', 'currency_id')
+            ->where('currency_id', $CurrencyData->id)
             ->whereYear('name', $date->year)
             ->whereMonth('name', $date->month)
             ->orderBy('name')
