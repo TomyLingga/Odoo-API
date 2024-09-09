@@ -36,6 +36,7 @@ Route::get('currency/ex-idr', [App\Http\Controllers\CurrencyController::class, '
 Route::get('currency_rate/index', [App\Http\Controllers\CurrencyController::class, 'index_currency_rate']);
 Route::get('currency_rate/get/{id}', [App\Http\Controllers\CurrencyController::class, 'show_currency_rate']);
 Route::post('currency_rate/period', [App\Http\Controllers\CurrencyController::class, 'get_date_currency']);
+Route::post('currency_rate/latest', [App\Http\Controllers\CurrencyController::class, 'getLatestCurrency']);
 //Account Move Line
 Route::post('account_move_line/index', [App\Http\Controllers\AccountMoveLineController::class, 'index_accountmove']);
 Route::post('account_move_line/posted', [App\Http\Controllers\AccountMoveLineController::class, 'indexPosted']);

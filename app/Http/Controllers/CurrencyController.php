@@ -153,6 +153,37 @@ class CurrencyController extends Controller
         }
     }
 
+    public function getLatestCurrency(Request $request)
+    {
+        try {
+            // Get the currency data based on the provided currency name
+            $CurrencyData = ResCurrency::where('name', $request->get('mata_uang'))->firstOrFail();
+
+            // Fetch all records for the specified currency
+            $rates = ResCurrencyRate::select('id', 'name', 'rate', 'currency_id')
+                ->where('currency_id', $CurrencyData->id)
+                ->orderBy('name', 'desc') // Order by 'name' in descending order
+                ->get();
+
+            // Get the latest rate based on the 'name' field
+            $latestRate = $rates->first(); // Fetches the first entry from the sorted collection
+
+            return response()->json([
+                'latest' => $latestRate,
+                'data' => $rates,
+                'message' => 'Currency Rate Retrieved Successfully',
+                'code' => 200,
+                'success' => true,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Currency Rate Not Found',
+                'success' => false,
+                'code' => 401
+            ], 401);
+        }
+    }
+
     public function get_except_idr(){
 
         try {
