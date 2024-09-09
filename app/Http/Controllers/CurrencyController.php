@@ -170,7 +170,6 @@ class CurrencyController extends Controller
 
             return response()->json([
                 'latest' => $latestRate,
-                'data' => $rates,
                 'message' => 'Currency Rate Retrieved Successfully',
                 'code' => 200,
                 'success' => true,
