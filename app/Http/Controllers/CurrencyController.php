@@ -129,13 +129,16 @@ class CurrencyController extends Controller
             $date = Carbon::parse($tanggal);
 
             $rates = ResCurrencyRate::select('id', 'name', 'rate', 'currency_id')
-            ->where('currency_id', $CurrencyData->id)
-            ->whereYear('name', $date->year)
-            ->whereMonth('name', $date->month)
-            ->orderBy('name')
-            ->get();
+                ->where('currency_id', $CurrencyData->id)
+                ->whereYear('name', $date->year)
+                ->whereMonth('name', $date->month)
+                ->orderBy('name')
+                ->get();
             //dd($rates);
+            $latestRate = $rates->last(); // Fetches the latest entry from the collection
+
             return response()->json([
+                'latest' => $latestRate,
                 'data' => $rates,
                 'message' => 'Currency Rate Retrieved Successfully',
                 'code' => 200,
